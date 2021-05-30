@@ -351,38 +351,55 @@
         });
         bounds_group.addLayer(layer_PohonAdopsi_3);
         map.addLayer(layer_PohonAdopsi_3);
-        var osmGeocoder = new L.Control.Geocoder({
+       var osmGeocoder = new L.Control.Geocoder({
             collapsed: true,
             position: 'topleft',
             text: 'Search',
-            title: 'Testing'
+            title: 'Testing',
+            placeholder: 'Cari lokasi disini'
         }).addTo(map);
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
         .className += ' fa fa-search';
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
-        .title += 'Search for a place';
+        .title += 'Cari lokasi disini';
         var baseMaps = {};
-        L.control.layers(baseMaps,{'Pohon Adopsi<br /><table><tr><td style="text-align: center;"><img src="legend/PohonAdopsi_3_01000.png" /></td><td>0 - 100 </td></tr><tr><td style="text-align: center;"><img src="legend/PohonAdopsi_3_1002001.png" /></td><td>100 - 200 </td></tr><tr><td style="text-align: center;"><img src="legend/PohonAdopsi_3_2002.png" /></td><td>>200</td></tr></table>': layer_PohonAdopsi_3,'<img src="legend/HutanAdatKampa_2.png" /> Hutan Adat Kampa': layer_HutanAdatKampa_2,"Google Satellite": layer_GoogleSatellite_1,"OSM Standard": layer_OSMStandard_0,}).addTo(map);
+        L.control.layers(baseMaps,{'Pohon Adopsi<br /><table><tr><td style="text-align: center;"><img src="legend/PohonAdopsi_3_0500.png" /></td><td>0 - 50 </td></tr><tr><td style="text-align: center;"><img src="legend/PohonAdopsi_3_50661.png" /></td><td>50 - 66 </td></tr><tr><td style="text-align: center;"><img src="legend/PohonAdopsi_3_662352.png" /></td><td>66 - 235 </td></tr></table>': cluster_PohonAdopsi_3,'<img src="legend/HutanAdatKampa_2.png" /> Hutan Adat Kampa': layer_HutanAdatKampa_2,"Google Satellite": layer_GoogleSatellite_1,"OSM Standard": layer_OSMStandard_0,}).addTo(map);
         setBounds();
         map.addControl(new L.Control.Search({
-            layer: layer_PohonAdopsi_3,
+            layer: cluster_PohonAdopsi_3,
             initial: false,
             hideMarkerOnCollapse: true,
-            propertyName: 'kode_pohon'}));
+            propertyName: 'kode_pohon',
+            textPlaceholder: 'Cari berdasarkan kode pohon',
+            minLength: 1}));
         document.getElementsByClassName('search-button')[0].className +=
          ' fa fa-binoculars';
         L.control.scale({
             metric: true,
             imperial: false
         }).addTo(map);
-         //logo position: bottomright, topright, topleft, bottomleft
-    var logo = L.control({position: 'bottomleft'});
-    logo.onAdd = function(map){
-        var div = L.DomUtil.create('div', 'myclass');
-        div.innerHTML= "<img src='logo.png'/>";
-        return div;
-    }
-    logo.addTo(map);
+        L.Control.Watermark=L.Control.extend({
+            onAdd:function(map){
+                var img = L.DomUtil.create('img');
+                img.src = 'logo.png';
+                img.style.width = '50px';
+                return img;
+            },
+            onRemove:function(map){},
+        })
+        L.control.watermark = function(opts){
+            return new L.Control.Watermark(opts);
+        }
+        L.control.watermark({position:'bottomright'}).addTo(map);
+        map.addControl(new L.Control.Search({
+            layer: cluster_PohonAdopsi_3,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'nama_lokal',
+            textPlaceholder: 'Cari berdasarkan nama pohon',
+            minLength: 1}));
+        document1.getElementsByClassName('search-button')[0].className +=
+         ' fa fa-tree'
         </script>
     </body>
 </html>
